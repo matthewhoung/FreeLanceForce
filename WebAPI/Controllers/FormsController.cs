@@ -1,0 +1,37 @@
+﻿using Application.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+namespace WebAPI.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class FormsController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public FormsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateFormCommand command)
+        {
+            try
+            {
+                var formId = await _mediator.Send(command);
+                return Ok(new { Id = formId });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+    }
+}
