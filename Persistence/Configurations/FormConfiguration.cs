@@ -31,6 +31,11 @@ namespace Persistence.Configurations
             builder.Property(f => f.UpdateAt)
                 .IsRequired()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.HasMany(f => f.OrderForms)
+                   .WithOne(of => of.Form)
+                   .HasForeignKey(of => of.FormId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

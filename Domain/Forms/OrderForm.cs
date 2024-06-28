@@ -2,9 +2,9 @@
 {
     public class OrderForm
     {
-        public Form Form { get; private set; }
         public int ProcurementId { get; private set; }
         public int FormId { get; private set; }
+        public Form Form { get; private set; }
         public FormStatus Status { get; private set; }
         public SerialNumber SerialNumber { get; private set; }
         public DateTime CreateAt { get; private set; }

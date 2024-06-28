@@ -10,6 +10,9 @@
         public DateTime CreateAt { get; private set; }
         public DateTime UpdateAt { get; private set; }
 
+        // Navigation property
+        public ICollection<OrderForm> OrderForms { get; private set; } = new List<OrderForm>();
+
         // EF Core uses this constructor
         private Form()
         {
