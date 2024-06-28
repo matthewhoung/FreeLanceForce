@@ -21,7 +21,12 @@ namespace Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(500);
             builder.Property(f => f.Stage)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion
+                (
+                 stage => stage.ToString(),
+                 stage => (FormStage)Enum.Parse(typeof(FormStage), stage)
+                );
             builder.Property(f => f.CreateAt)
                 .IsRequired()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");

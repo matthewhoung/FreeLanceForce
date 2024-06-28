@@ -6,13 +6,14 @@ using Microsoft.EntityFrameworkCore;
  *               Microsoft.EntityFrameworkCore.Tools
  * 之後打開NuGet Package Manager Console
  * 輸入: Add-Migration InitialCreate
- *       Update-Database
+ *      Update-Database -Project Persistence -StartupProject Persistence
  */
 
-namespace FreeLanceForce.Persistence
+namespace Persistence
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<Form> Forms { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=20240401;Database=VPlus_dev;");

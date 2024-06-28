@@ -6,7 +6,7 @@ namespace Domain.Interfaces
     {
         Task<Form> GetByIdAsync(int id);
         Task<IEnumerable<Form>> GetAllAsync();
-        Task AddAsync(Form form);
+        Task<int> AddAsync(Form form);
         Task UpdateAsync(Form form);
         Task DeleteAsync(int id);
     }

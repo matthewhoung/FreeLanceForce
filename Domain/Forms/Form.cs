@@ -10,15 +10,25 @@
         public DateTime CreateAt { get; private set; }
         public DateTime UpdateAt { get; private set; }
 
+        // EF 透過映射取得資料，並且透過這個Constructor建立物件
         private Form() 
         {
         }
 
-        public Form(int productId, string title, string description,FormStage? stage)
+        // 公開的Constructor，用於建立新的Form
+        public Form(int productId, string title, string? description,FormStage? stage)
         {
+            if (productId <= 0)
+            {
+                throw new ArgumentException("Product cannot be empty");
+            }
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title cannot be empty");
+            }
             ProductId = productId;
             Title = title;
-            Description = description;
+            Description = description ?? string.Empty;
             Stage = stage?? FormStage.OrderForm;
             CreateAt = DateTime.UtcNow;
             UpdateAt = DateTime.UtcNow;
