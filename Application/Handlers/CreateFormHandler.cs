@@ -2,6 +2,9 @@
 using Domain.Forms;
 using Domain.Interfaces;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Handlers
 {
@@ -28,13 +31,11 @@ namespace Application.Handlers
                 var createdFormId = await _formRepository.AddAsync(form);
                 return createdFormId;
             }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException(ex.Message);
-            }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("An error occured while creating new form",ex);
+                // Log detailed exception information
+                Console.WriteLine($"Exception: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new InvalidOperationException("An error occurred while creating a new form", ex);
             }
         }
     }

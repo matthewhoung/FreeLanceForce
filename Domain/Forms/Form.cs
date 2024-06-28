@@ -10,26 +10,26 @@
         public DateTime CreateAt { get; private set; }
         public DateTime UpdateAt { get; private set; }
 
-        // EF 透過映射取得資料，並且透過這個Constructor建立物件
-        private Form() 
+        // EF Core uses this constructor
+        private Form()
         {
         }
 
-        // 公開的Constructor，用於建立新的Form
-        public Form(int productId, string title, string? description,FormStage? stage)
+        // Public constructor for creating new forms
+        public Form(int productId, string title, string? description, FormStage? stage)
         {
             if (productId <= 0)
             {
-                throw new ArgumentException("Product cannot be empty");
+                throw new ArgumentException("ProductId cannot be less than or equal to zero.");
             }
             if (string.IsNullOrWhiteSpace(title))
             {
-                throw new ArgumentException("Title cannot be empty");
+                throw new ArgumentException("Title cannot be empty.");
             }
             ProductId = productId;
             Title = title;
             Description = description ?? string.Empty;
-            Stage = stage?? FormStage.OrderForm;
+            Stage = stage ?? FormStage.OrderForm;
             CreateAt = DateTime.UtcNow;
             UpdateAt = DateTime.UtcNow;
         }
@@ -46,7 +46,7 @@
             UpdateAt = DateTime.UtcNow;
         }
 
-        public void UpdateStage(FormStage stage) 
+        public void UpdateStage(FormStage stage)
         {
             Stage = stage;
             UpdateAt = DateTime.UtcNow;

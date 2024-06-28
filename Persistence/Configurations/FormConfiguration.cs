@@ -18,10 +18,8 @@ namespace Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
             builder.Property(f => f.Description)
-                .IsRequired()
                 .HasMaxLength(500);
             builder.Property(f => f.Stage)
-                .IsRequired()
                 .HasConversion
                 (
                  stage => stage.ToString(),
