@@ -3,26 +3,24 @@
     public class SerialNumber
     {
         //追加:add,追減:sub
-        public string SerialNumberGenerator(int formId, string stage, int count, string? attachType)
+        public string SerialNumberGenerator(int formId, string stage, int count, bool? isAttachForm)
         {
             var datePart = DateTime.UtcNow.ToString("MMddyyyy");
             var partialOfStage = stage.Substring(0, 1);
             var currentSerialCount = count + 1;
             string? attachTypePart = null;
 
-            if (attachType == "add" || attachType == "sub")
+            if (isAttachForm.HasValue)
             {
-                attachTypePart = attachType == "add" ? "A" : "B";
+                attachTypePart = isAttachForm.Value ? "A" : "B";
             }
 
-            switch (attachType)
+            switch (isAttachForm)
             {
                 case null:
                     return $"{datePart}-{partialOfStage}-{currentSerialCount}";
-                case not null:
-                    return $"{datePart}-{partialOfStage}-{currentSerialCount}-{attachTypePart}";
                 default:
-                    throw new ArgumentException("Invalid combination of attachType and count");
+                    return $"{datePart}-{partialOfStage}-{currentSerialCount}-{attachTypePart}";
             }
         }
     }

@@ -46,13 +46,13 @@ namespace Persistence.Repositories
             }
         }
 
-        public async Task<string> GetSerialNumberCountAsync(int formId, string stage, string attachType)
+        public async Task<string> GenerateSerialNumberAsync(int formId, string stage, bool? isAttatchForm)
         {
             var partialDate = DateTime.UtcNow.ToString("MMddyyyy");
             int currentSerialCount = await _context.OrderForms
                                   .CountAsync(of => EF.Functions.Like(of.SerialNumber, $"%{partialDate}%"));
 
-            string serialNumber = new SerialNumber().SerialNumberGenerator(formId, stage, currentSerialCount, attachType);
+            string serialNumber = new SerialNumber().SerialNumberGenerator(formId, stage, currentSerialCount, isAttatchForm);
             return serialNumber;
         }
     }

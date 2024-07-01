@@ -18,13 +18,12 @@ namespace Domain.Forms
         {
         }
 
-        public OrderForm(int procurementId, int formId, Status? status, string serialNumber, string? title, string? description)
+        public OrderForm(int formId, Status? status, string serialNumber, string title, string? description)
         {
-            ProcurementId = procurementId;
             FormId = formId;
             Status = status ?? Status.Pending;
             SerialNumber = serialNumber;
-            Title = title ?? string.Empty;
+            Title = title;
             Description = description ?? string.Empty;
             CreateAt = DateTime.UtcNow;
             UpdateAt = DateTime.UtcNow;
