@@ -1,7 +1,7 @@
 ﻿using Domain.Forms;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Forms.Commands
 {
     public class CreateFormCommand : IRequest<int>
     {

@@ -1,9 +1,9 @@
-﻿using Application.Queries;
+﻿using Application.Forms.Queries;
 using Domain.Forms;
 using Domain.Interfaces;
 using MediatR;
 
-namespace Application.Handlers
+namespace Application.Forms.Handlers
 {
     public class GetFormByIdHandler : IRequestHandler<GetFormByIdQuery, Form>
     {

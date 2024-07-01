@@ -1,5 +1,5 @@
-﻿using Application.Commands;
-using Application.Queries;
+﻿using Application.Forms.Commands;
+using Application.Forms.Queries;
 using Domain.Forms;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

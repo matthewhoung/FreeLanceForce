@@ -1,9 +1,9 @@
-﻿using Application.Commands;
+﻿using Application.Forms.Commands;
 using Domain.Forms;
 using Domain.Interfaces;
 using MediatR;
 
-namespace Application.Handlers
+namespace Application.Forms.Handlers
 {
     public class CreateFormHandler : IRequestHandler<CreateFormCommand, int>
     {

@@ -1,7 +1,7 @@
 ﻿using Domain.Forms;
 using MediatR;
 
-namespace Application.Queries
+namespace Application.Forms.Queries
 {
     public class GetFormByIdQuery : IRequest<Form>
     {
