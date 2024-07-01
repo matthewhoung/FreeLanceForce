@@ -2,7 +2,9 @@
 using Domain.Forms;
 using Domain.Interfaces;
 using MediatR;
-using System.Transactions;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Forms.Handlers.Commands
 {
@@ -17,30 +19,24 @@ namespace Application.Forms.Handlers.Commands
 
         public async Task<int> Handle(CreateFormCommand request, CancellationToken cancellationToken)
         {
-            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            try
             {
-                try
-                {
-                    var form = new Form(
-                        productId: request.ProjectId,
-                        title: request.Title,
-                        description: request.Description,
-                        stage: request.Stage
-                    );
+                var stage = request.Stage ?? Stages.OrderForm;
 
-                    var createdFormId = await _formRepository.AddAsync(form);
-                    
-                    scope.Complete();
-                    return createdFormId;
-                }
-                catch (Exception ex)
-                {
-                    scope.Dispose();
-                    Console.WriteLine($"Exception: {ex.Message}, StackTrace: {ex.StackTrace}");
-                    throw new InvalidOperationException("An error occurred while creating a new form", ex);
-                }
+                var form = new Form(
+                    productId: request.ProjectId,
+                    stage: stage
+                );
+
+                var createdFormId = await _formRepository.AddAsync(form);
+
+                return createdFormId;
             }
-            
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new InvalidOperationException("An error occurred while creating a new form", ex);
+            }
         }
     }
 }

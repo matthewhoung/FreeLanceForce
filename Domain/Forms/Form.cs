@@ -4,8 +4,6 @@
     {
         public int Id { get; private set; }
         public int ProductId { get; private set; }
-        public string Title { get; private set; }
-        public string Description { get; private set; }
         public FormStage Stage { get; private set; }
         public DateTime CreateAt { get; private set; }
         public DateTime UpdateAt { get; private set; }
@@ -19,33 +17,16 @@
         }
 
         // Public constructor for creating new forms
-        public Form(int? productId, string? title, string? description, FormStage? stage)
+        public Form(int? productId, FormStage? stage)
         {
-            if (productId <= 0)
+            if (!productId.HasValue || productId.Value <= 0)
             {
                 throw new ArgumentException("ProductId cannot be less than or equal to zero.");
             }
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                throw new ArgumentException("Title cannot be empty.");
-            }
-            ProductId = productId.Value ;
-            Title = title ?? string.Empty;
-            Description = description ?? string.Empty;
+
+            ProductId = productId.Value;
             Stage = stage ?? FormStage.OrderForm;
             CreateAt = DateTime.UtcNow;
-            UpdateAt = DateTime.UtcNow;
-        }
-
-        public void UpdateTitle(string title)
-        {
-            Title = title;
-            UpdateAt = DateTime.UtcNow;
-        }
-
-        public void UpdateDescription(string description)
-        {
-            Description = description;
             UpdateAt = DateTime.UtcNow;
         }
 

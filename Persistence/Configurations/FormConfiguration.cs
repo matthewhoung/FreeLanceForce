@@ -14,17 +14,13 @@ namespace Persistence.Configurations
                 .ValueGeneratedOnAdd();
             builder.Property(f => f.ProductId)
                 .IsRequired();
-            builder.Property(f => f.Title)
-                .IsRequired()
-                .HasMaxLength(100);
-            builder.Property(f => f.Description)
-                .HasMaxLength(500);
+
             builder.Property(f => f.Stage)
-                .HasConversion
-                (
-                 stage => stage.ToString(),
-                 stage => (FormStage)Enum.Parse(typeof(FormStage), stage)
+                .HasConversion(
+                    stage => stage.Value,
+                    value => Stages.FromValue(value)
                 );
+
             builder.Property(f => f.CreateAt)
                 .IsRequired()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");

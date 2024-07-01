@@ -19,7 +19,11 @@ namespace Persistence.Configurations
                        v => v.ToString(),
                        v => (FormStatus)Enum.Parse(typeof(FormStatus), v)
                    );
-
+            builder.Property(f => f.Title)
+                .IsRequired()
+                .HasMaxLength(100);
+            builder.Property(f => f.Description)
+                .HasMaxLength(500);
             builder.Property(of => of.CreateAt).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(of => of.UpdateAt).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
