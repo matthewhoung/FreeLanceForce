@@ -1,0 +1,15 @@
+﻿using Domain.Forms;
+using MediatR;
+
+namespace Application.Queries
+{
+    public class GetFormByIdQuery : IRequest<Form>
+    {
+        public int Id { get; set; }
+
+        public GetFormByIdQuery(int id)
+        {
+            Id = id;
+        }
+    }
+}

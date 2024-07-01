@@ -1,13 +1,5 @@
 ﻿using Domain.Forms;
 using Microsoft.EntityFrameworkCore;
-/*
- * 預先從NuGet安裝Microsoft.EntityFrameworkCore
- *               Microsoft.EntityFrameworkCore.Design
- *               Microsoft.EntityFrameworkCore.Tools
- * 之後打開NuGet Package Manager Console
- * 輸入: Add-Migration InitialCreate
- *      Update-Database -Project Persistence -StartupProject Persistence
- */
 
 namespace Persistence
 {
@@ -16,9 +8,9 @@ namespace Persistence
         public DbSet<Form> Forms { get; set; }
         public DbSet<OrderForm> OrderForms { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=20240401;Database=VPlus_dev;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

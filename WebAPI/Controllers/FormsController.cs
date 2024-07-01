@@ -1,7 +1,8 @@
 ﻿using Application.Commands;
+using Application.Queries;
+using Domain.Forms;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -32,6 +33,18 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(500, new { Error = ex.Message });
             }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Form>> GetByIdAsync(int id)
+        {
+            var query = new GetFormByIdQuery(id);
+            var form = await _mediator.Send(query);
+            if (form == null)
+            {
+                return NotFound();
+            }
+            return Ok(form);
         }
     }
 }
