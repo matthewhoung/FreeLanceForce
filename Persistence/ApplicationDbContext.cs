@@ -1,6 +1,5 @@
 ﻿using Domain.Forms;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 /*
  * 預先從NuGet安裝Microsoft.EntityFrameworkCore
  *               Microsoft.EntityFrameworkCore.Design

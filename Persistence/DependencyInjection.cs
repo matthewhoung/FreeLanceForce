@@ -9,6 +9,7 @@ namespace Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services)
         {
             services.AddScoped<IFormRepository, FormRepository>();
+            services.AddScoped<IOrderFormRepository, OrderFormRepository>();
 
             return services;
         }
