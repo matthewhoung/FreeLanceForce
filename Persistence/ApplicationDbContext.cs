@@ -1,6 +1,7 @@
 ﻿using Domain.Forms;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Persistence
 {
     public class ApplicationDbContext : DbContext
@@ -11,7 +12,7 @@ namespace Persistence
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -19,11 +20,10 @@ namespace Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
     }
+}
 
-    /*
-using Domain.Forms;
-using Microsoft.EntityFrameworkCore;
 
+/*
 namespace Persistence
 {
     public class ApplicationDbContext : DbContext
@@ -41,5 +41,4 @@ namespace Persistence
         }
     }
 }
-     */
-}
+*/
