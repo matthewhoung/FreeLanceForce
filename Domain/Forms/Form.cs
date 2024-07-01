@@ -19,7 +19,7 @@
         }
 
         // Public constructor for creating new forms
-        public Form(int productId, string title, string? description, FormStage? stage)
+        public Form(int? productId, string? title, string? description, FormStage? stage)
         {
             if (productId <= 0)
             {
@@ -29,8 +29,8 @@
             {
                 throw new ArgumentException("Title cannot be empty.");
             }
-            ProductId = productId;
-            Title = title;
+            ProductId = productId.Value ;
+            Title = title ?? string.Empty;
             Description = description ?? string.Empty;
             Stage = stage ?? FormStage.OrderForm;
             CreateAt = DateTime.UtcNow;

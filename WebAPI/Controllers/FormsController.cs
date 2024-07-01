@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/forms")]
     public class FormsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -45,6 +45,14 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
             return Ok(form);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Form>>> GetAllAsync()
+        {
+            var query = new GetAllFormsQuery();
+            var forms = await _mediator.Send(query);
+            return Ok(forms);
         }
     }
 }

@@ -3,7 +3,7 @@ using Domain.Forms;
 using Domain.Interfaces;
 using MediatR;
 
-namespace Application.Forms.Handlers
+namespace Application.Forms.Handlers.Queries
 {
     public class GetFormByIdHandler : IRequestHandler<GetFormByIdQuery, Form>
     {
