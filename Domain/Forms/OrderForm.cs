@@ -27,6 +27,7 @@
         public void UpdateStatus(FormStatus status)
         {
             Status = status;
+            UpdateAt = DateTime.UtcNow;
         }
     }
 }

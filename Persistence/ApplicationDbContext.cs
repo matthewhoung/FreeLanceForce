@@ -1,5 +1,6 @@
 ﻿using Domain.Forms;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 /*
  * 預先從NuGet安裝Microsoft.EntityFrameworkCore
  *               Microsoft.EntityFrameworkCore.Design
@@ -9,25 +10,6 @@ using Microsoft.EntityFrameworkCore;
  *      Update-Database -Project Persistence -StartupProject Persistence
  */
 
-// old version
-/*
-namespace Persistence
-{
-    public class ApplicationDbContext : DbContext
-    {
-        public DbSet<Form> Forms { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=20240401;Database=VPlus_dev;");
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-        }
-    }
-}
-*/
 namespace Persistence
 {
     public class ApplicationDbContext : DbContext
@@ -35,9 +17,9 @@ namespace Persistence
         public DbSet<Form> Forms { get; set; }
         public DbSet<OrderForm> OrderForms { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
-            : base(options) 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=20240401;Database=VPlus_dev;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

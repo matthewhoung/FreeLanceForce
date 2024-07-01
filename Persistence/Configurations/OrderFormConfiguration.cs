@@ -9,8 +9,10 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<OrderForm> builder)
         {
             builder.HasKey(of => of.ProcurementId);
-
-            builder.Property(of => of.SerialNumber).IsRequired();
+            builder.Property(of => of.FormId)
+                    .IsRequired();
+            builder.Property(of => of.SerialNumber)
+                    .IsRequired();
             builder.Property(of => of.Status)
                    .IsRequired()
                    .HasConversion(
