@@ -35,7 +35,10 @@ namespace Persistence
         public DbSet<Form> Forms { get; set; }
         public DbSet<OrderForm> OrderForms { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+            : base(options) 
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

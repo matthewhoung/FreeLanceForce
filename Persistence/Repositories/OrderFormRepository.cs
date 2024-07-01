@@ -1,5 +1,6 @@
 ﻿using Domain.Forms;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
@@ -11,33 +12,48 @@ namespace Persistence.Repositories
         {
             _context = context;
         }
-        public Task<int> AddAsync(OrderForm orderForm)
+
+        public async Task<OrderForm> GetByIdAsync(int formId)
         {
-            throw new NotImplementedException();
+            return await _context.OrderForms.FindAsync(formId);
         }
 
-        public async Task<OrderForm> GetByIdAsync(int procurementId)
+        public async Task<IEnumerable<OrderForm>> GetAllAsync()
         {
-            return await _context.OrderForms.FindAsync(procurementId);
+            return await _context.OrderForms.ToListAsync();
         }
 
-        public Task<IEnumerable<OrderForm>> GetAllAsync()
+        public async Task<int> AddAsync(OrderForm orderForm)
         {
-            throw new NotImplementedException();
+            var createdOrderForm = await _context.OrderForms.AddAsync(orderForm);
+            await _context.SaveChangesAsync();
+            return createdOrderForm.Entity.ProcurementId;
         }
 
-        public Task<int> GetSerialNumberCountAsync(string datePart)
+        public async Task UpdateAsync(OrderForm orderForm)
         {
-            throw new NotImplementedException();
+            _context.OrderForms.Update(orderForm);
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(OrderForm orderForm)
+        public async Task DeleteAsync(int procurementId)
         {
-            throw new NotImplementedException();
+            var orderForm = await _context.OrderForms.FindAsync(procurementId);
+            if (orderForm != null)
+            {
+                _context.OrderForms.Remove(orderForm);
+                await _context.SaveChangesAsync();
+            }
         }
-        public Task DeleteAsync(int procurementId)
+
+        public async Task<string> GetSerialNumberCountAsync(int formId, string stage, string attachType)
         {
-            throw new NotImplementedException();
+            var partialDate = DateTime.UtcNow.ToString("MMddyyyy");
+            int currentSerialCount = await _context.OrderForms
+                                  .CountAsync(of => EF.Functions.Like(of.SerialNumber, $"%{partialDate}%"));
+
+            string serialNumber = new SerialNumber().SerialNumberGenerator(formId, stage, currentSerialCount, attachType);
+            return serialNumber;
         }
     }
 }

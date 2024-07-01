@@ -4,11 +4,11 @@ namespace Domain.Interfaces
 {
     public interface IOrderFormRepository
     {
-        Task<OrderForm> GetByIdAsync(int procurementId);
+        Task<OrderForm> GetByIdAsync(int formId);
         Task<IEnumerable<OrderForm>> GetAllAsync();
         Task<int> AddAsync(OrderForm orderForm);
         Task UpdateAsync(OrderForm orderForm);
         Task DeleteAsync(int procurementId);
-        Task<int> GetSerialNumberCountAsync(string datePart);
+        //Task<int> GetSerialNumberCountAsync(string datePart);
     }
 }
