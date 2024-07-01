@@ -1,10 +1,12 @@
-﻿namespace Domain.Forms
+﻿using Domain.Forms.enums;
+
+namespace Domain.Forms
 {
     public class Form
     {
         public int Id { get; private set; }
         public int ProductId { get; private set; }
-        public FormStage Stage { get; private set; }
+        public Stages Stage { get; private set; }
         public DateTime CreateAt { get; private set; }
         public DateTime UpdateAt { get; private set; }
 
@@ -17,22 +19,24 @@
         }
 
         // Public constructor for creating new forms
-        public Form(int? productId, FormStage? stage)
+        public Form(int productId, string? stage)
         {
-            if (!productId.HasValue || productId.Value <= 0)
+            if (productId <= 0)
             {
                 throw new ArgumentException("ProductId cannot be less than or equal to zero.");
             }
 
-            ProductId = productId.Value;
-            Stage = stage ?? FormStage.OrderForm;
+            ProductId = productId;
+            Stage = string.IsNullOrWhiteSpace(stage) ? 
+                Stages.OrderForm : Stages.FromName(stage);
             CreateAt = DateTime.UtcNow;
             UpdateAt = DateTime.UtcNow;
         }
 
-        public void UpdateStage(FormStage stage)
+        public void UpdateStage(string stage)
         {
-            Stage = stage;
+            Stage = string.IsNullOrWhiteSpace(stage) ? 
+                Stages.OrderForm : Stages.FromName(stage);
             UpdateAt = DateTime.UtcNow;
         }
     }

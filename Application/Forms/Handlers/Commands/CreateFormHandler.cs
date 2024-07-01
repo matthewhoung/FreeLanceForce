@@ -21,11 +21,9 @@ namespace Application.Forms.Handlers.Commands
         {
             try
             {
-                var stage = request.Stage ?? Stages.OrderForm;
-
                 var form = new Form(
                     productId: request.ProjectId,
-                    stage: stage
+                    stage: request.Stage
                 );
 
                 var createdFormId = await _formRepository.AddAsync(form);
