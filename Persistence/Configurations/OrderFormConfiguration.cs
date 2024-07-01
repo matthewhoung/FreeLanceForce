@@ -1,4 +1,5 @@
 ﻿using Domain.Forms;
+using Domain.Forms.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,23 +10,34 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<OrderForm> builder)
         {
             builder.HasKey(of => of.ProcurementId);
+
             builder.Property(of => of.FormId)
-                    .IsRequired();
+                   .IsRequired();
+
             builder.Property(of => of.SerialNumber)
-                    .IsRequired();
+                   .IsRequired();
+
             builder.Property(of => of.Status)
                    .IsRequired()
                    .HasConversion(
-                       v => v.ToString(),
-                       v => (FormStatus)Enum.Parse(typeof(FormStatus), v)
+                       status => status.Value,
+                       value => Status.FromValue(value)
                    );
+
             builder.Property(f => f.Title)
-                .IsRequired()
-                .HasMaxLength(100);
+                   .IsRequired()
+                   .HasMaxLength(100);
+
             builder.Property(f => f.Description)
-                .HasMaxLength(500);
-            builder.Property(of => of.CreateAt).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
-            builder.Property(of => of.UpdateAt).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
+                   .HasMaxLength(500);
+
+            builder.Property(of => of.CreateAt)
+                   .IsRequired()
+                   .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Property(of => of.UpdateAt)
+                   .IsRequired()
+                   .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
     }
 }
