@@ -2,6 +2,6 @@
 {
     public interface ISerialNumberRepository
     {
-        Task<string> SerialNumberAsync(int formId, string stage, string? isAttachForm);
+        Task<string> SerialNumberAsync(int formId, string stage, bool? isAttach);
     }
 }

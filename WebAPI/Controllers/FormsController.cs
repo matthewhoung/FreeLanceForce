@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Form>> GetByIdAsync(int id)
+        public async Task<ActionResult<Form>> GetByIdAsync([FromBody]int id)
         {
             var query = new GetFormByIdQuery(id);
             var form = await _mediator.Send(query);

@@ -12,10 +12,12 @@ namespace Application.Forms.Handlers.Commands
         private readonly IOrderFormRepository _orderFormRepository;
         private readonly ISerialNumberRepository _serialNumberRepository;
 
-        public CreateFormHandler(IFormRepository formRepository, IOrderFormRepository orderFormRepository)
+        public CreateFormHandler(IFormRepository formRepository, IOrderFormRepository orderFormRepository,ISerialNumberRepository serialNumberRepository)
         {
             _formRepository = formRepository;
             _orderFormRepository = orderFormRepository;
+            _serialNumberRepository = serialNumberRepository;
+
         }
 
         public async Task<int> Handle(CreateFormCommand request, CancellationToken cancellationToken)
@@ -32,12 +34,11 @@ namespace Application.Forms.Handlers.Commands
 
                 var createdFormId = await _formRepository.AddAsync(form);
 
-                //Create the order form
-                //取得採購單編號
+                //取得採購單編號                
                 var serialNumber = await _serialNumberRepository.SerialNumberAsync(
-                    formId: createdFormId,
-                    stage: "OrderForm",
-                    isAttatchForm: dto.IsAttatchForm);
+                    formId: dto.FormId?? createdFormId,
+                    stage: dto.Stage?? "OrderForm",
+                    isAttach: dto.IsAttach?? null);
 
                 //創建採購單
                 var status = Status.FromName(dto.Status ?? "Pending");
