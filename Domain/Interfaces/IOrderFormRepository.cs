@@ -9,6 +9,5 @@ namespace Domain.Interfaces
         Task<int> AddAsync(OrderForm orderForm);
         Task UpdateAsync(OrderForm orderForm);
         Task DeleteAsync(int procurementId);
-        Task<string> GenerateSerialNumberAsync(int formId, string stage, bool? isAttatchForm);
     }
 }

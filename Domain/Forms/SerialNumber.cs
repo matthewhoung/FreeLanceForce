@@ -3,16 +3,23 @@
     public class SerialNumber
     {
         //追加:add,追減:sub
-        public string SerialNumberGenerator(int formId, string stage, int count, bool? isAttachForm)
+        public string SerialNumberGenerator(int formId, string stage, int count, string? isAttachForm)
         {
             var datePart = DateTime.UtcNow.ToString("MMddyyyy");
             var partialOfStage = stage.Substring(0, 1);
             var currentSerialCount = count + 1;
             string? attachTypePart = null;
 
-            if (isAttachForm.HasValue)
+            if (!string.IsNullOrEmpty(isAttachForm) && 
+                isAttachForm != "A" && 
+                isAttachForm != "B")
             {
-                attachTypePart = isAttachForm.Value ? "A" : "B";
+                throw new ArgumentException("Invalid value for isAttachForm. Allowed values are 'A', 'B', or null.");
+            }
+
+            if (isAttachForm != null)
+            {
+                attachTypePart = isAttachForm;
             }
 
             switch (isAttachForm)
