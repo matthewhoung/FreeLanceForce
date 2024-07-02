@@ -4,10 +4,10 @@
     {
         public int? FormId { get; set; }
         public int ProjectId { get; set; }
-        public string? Stage { get; set; } = null;
-        public string? Status { get; set; } = null;
+        public string? Stage { get; set; }
+        public string? Status { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
-        public bool? IsAttach { get; set; } = null;
+        public bool? IsAttach { get; set; }
     }
 }

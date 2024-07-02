@@ -47,6 +47,21 @@ namespace WebAPI.Controllers
             return Ok(form);
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> GetOrderFormDetails(int id)
+        {
+            var query = new GetOrderFormByIdQuery(id);
+            var orderFormDetails = await _mediator.Send(query);
+
+            if (orderFormDetails == null)
+            {
+                return NotFound(new { Message = $"Order form with Id {id} not found." });
+            }
+
+            return Ok(orderFormDetails);
+        }
+
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Form>>> GetAllAsync()
         {
@@ -54,5 +69,6 @@ namespace WebAPI.Controllers
             var forms = await _mediator.Send(query);
             return Ok(forms);
         }
+
     }
 }

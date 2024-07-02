@@ -1,4 +1,5 @@
-﻿using Domain.Forms;
+﻿using Application.Forms.DTOs;
+using Domain.Forms;
 
 namespace Domain.Interfaces
 {
@@ -9,5 +10,8 @@ namespace Domain.Interfaces
         Task<int> AddAsync(OrderForm orderForm);
         Task UpdateAsync(OrderForm orderForm);
         Task DeleteAsync(int procurementId);
+
+        //testing advanced querying
+        Task<OrderFormDto> GetOrderFormDetailsByIdAsync(int formId);
     }
 }

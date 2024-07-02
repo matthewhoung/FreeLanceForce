@@ -1,4 +1,5 @@
-﻿using Domain.Forms;
+﻿using Application.Forms.DTOs;
+using Domain.Forms;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,28 @@ namespace Persistence.Repositories
         public OrderFormRepository(ApplicationDbContext context)
         {
             _context = context;
+        }
+        //Advanced Querying
+        public async Task<OrderFormDto> GetOrderFormDetailsByIdAsync(int formId)
+        {
+            var query = from orderform in _context.OrderForms
+                        join form in _context.Forms on orderform.FormId equals form.Id
+                        where orderform.FormId == formId
+                        select new OrderFormDto
+                        {
+                            FormId = form.Id,
+                            ProductId = form.ProductId,
+                            Stage = form.Stage,
+                            ProcurementId = orderform.ProcurementId,
+                            SerialNumber = orderform.SerialNumber,
+                            Title = orderform.Title,
+                            Description = orderform.Description,
+                            Status = orderform.Status,
+                            CreatedAt = orderform.CreateAt,
+                            UpdatedAt = orderform.UpdateAt
+                        };
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<OrderForm> GetByIdAsync(int formId)

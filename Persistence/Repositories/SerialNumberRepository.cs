@@ -48,42 +48,24 @@ namespace Persistence.Repositories
             var currentDateTime = DateTime.UtcNow.ToString("MMddyyyy");
 
             int currentSerialCount = await _context.OrderForms
-                .CountAsync(of => EF.Functions.Like(of.SerialNumber, $"%{currentDateTime}%"));
+                .Where(of => EF.Functions.Like(of.SerialNumber, $"%{currentDateTime}%") &&
+                             !of.SerialNumber.EndsWith("A") &&
+                             !of.SerialNumber.EndsWith("B"))
+                .CountAsync();
 
             return currentSerialCount;
         }
 
         private async Task<string> GetSerialNumberAsync(int formId, string stage)
         {
-            switch (stage)
-            {
-                case "OrderForm":
-                    var orderFormNumber = await _context.OrderForms
-                        .Where(of => of.FormId == formId)
-                        .Select(of => of.SerialNumber)
-                        .FirstOrDefaultAsync();
+            var orderFormNumber = await _context.OrderForms
+                .Where(of => of.FormId == formId)
+                .Select(of => of.SerialNumber)
+                .FirstOrDefaultAsync();
 
-                    return orderFormNumber;
-                /*
-                case "AcceptanceForm":
-                    var acceptanceFormNumber = await _context.AcceptanceForms
-                        .Where(af => af.FormId == formId)
-                        .Select(af => af.SerialNumber)
-                        .FirstOrDefaultAsync();
-
-                    return acceptanceFormNumber;
-                case "PaymentForm":
-                    var paymentFormNumber = await _context.PaymentForms
-                        .Where(pf => pf.FormId == formId)
-                        .Select(pf => pf.SerialNumber)
-                        .FirstOrDefaultAsync();
-
-                    return paymentFormNumber;
-                */
-                default:
-                    throw new ArgumentException($"{stage} is an invalid input.");
-            }
+            return orderFormNumber;
         }
+        
 
         private async Task<string> AttachmentSerialNumberAsync(int formId, bool isAttach)
         {
