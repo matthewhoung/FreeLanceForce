@@ -1,6 +1,6 @@
 ﻿using Application.Forms.Commands;
+using Domain.Enums;
 using Domain.Forms;
-using Domain.Forms.Enums;
 using Domain.Interfaces;
 using MediatR;
 

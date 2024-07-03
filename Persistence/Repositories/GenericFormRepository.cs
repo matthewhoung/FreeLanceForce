@@ -1,5 +1,5 @@
 ﻿using Application.Forms.DTOs;
-using Domain.Forms;
+using Domain.Entities.Forms;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-﻿namespace Domain.Forms.Enums
+﻿namespace Domain.Enums
 {
     public class Status : Enumeration<Status>
     {

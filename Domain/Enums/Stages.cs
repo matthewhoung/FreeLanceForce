@@ -1,6 +1,4 @@
-﻿using Domain.Forms.Enums;
-
-namespace Domain.Forms.enums
+﻿namespace Domain.Enums
 {
     public class Stages : Enumeration<Stages>
     {

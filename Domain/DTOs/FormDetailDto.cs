@@ -1,5 +1,4 @@
-﻿using Domain.Forms.enums;
-using Domain.Forms.Enums;
+﻿using Domain.Enums;
 
 namespace Application.Forms.DTOs
 {

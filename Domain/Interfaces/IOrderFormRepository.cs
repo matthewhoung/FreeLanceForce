@@ -1,5 +1,4 @@
-﻿using Application.Forms.DTOs;
-using Domain.Forms;
+﻿using Domain.Entities.Forms;
 
 namespace Domain.Interfaces
 {

@@ -1,6 +1,6 @@
-﻿using Domain.Forms.enums;
+﻿using Domain.Enums;
 
-namespace Domain.Forms
+namespace Domain.Entities.Forms
 {
     public class Form
     {
@@ -27,7 +27,7 @@ namespace Domain.Forms
             }
 
             ProductId = productId;
-            Stage = string.IsNullOrWhiteSpace(stage) ? 
+            Stage = string.IsNullOrWhiteSpace(stage) ?
                 Stages.OrderForm : Stages.FromName(stage);
             CreateAt = DateTime.UtcNow;
             UpdateAt = DateTime.UtcNow;
@@ -35,7 +35,7 @@ namespace Domain.Forms
 
         public void UpdateStage(string stage)
         {
-            Stage = string.IsNullOrWhiteSpace(stage) ? 
+            Stage = string.IsNullOrWhiteSpace(stage) ?
                 Stages.OrderForm : Stages.FromName(stage);
             UpdateAt = DateTime.UtcNow;
         }

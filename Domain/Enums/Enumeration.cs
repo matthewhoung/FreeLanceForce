@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Domain.Forms.Enums
+namespace Domain.Enums
 {
     public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>
         where TEnum : Enumeration<TEnum>
@@ -19,9 +19,9 @@ namespace Domain.Forms.Enums
         public static TEnum? FromValue(int value)
         {
             return Enumerations.TryGetValue(
-                value, 
-                out var enumeration) ? 
-                enumeration : 
+                value,
+                out var enumeration) ?
+                enumeration :
                 default;
         }
 

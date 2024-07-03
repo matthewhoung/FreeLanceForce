@@ -1,4 +1,4 @@
-﻿using Domain.Forms;
+﻿using Domain.Entities.Forms;
 using Microsoft.EntityFrameworkCore;
 
 

@@ -1,8 +1,8 @@
-﻿using Domain.Forms.Enums;
+﻿using Domain.Enums;
 
-namespace Domain.Forms
+namespace Domain.Entities.Forms
 {
-    public class AcceptanceForm
+    public class OrderForm
     {
         public Form Form { get; private set; }
         public int ProcurementId { get; private set; }
@@ -14,17 +14,17 @@ namespace Domain.Forms
         public DateTime CreateAt { get; private set; }
         public DateTime UpdateAt { get; private set; }
 
-        private AcceptanceForm()
+        private OrderForm()
         {
         }
 
-        public AcceptanceForm(int formId, Status status, string serialNumber, string title, string description)
+        public OrderForm(int formId, Status? status, string serialNumber, string title, string? description)
         {
             FormId = formId;
-            Status = status;
+            Status = status ?? Status.Pending;
             SerialNumber = serialNumber;
             Title = title;
-            Description = description;
+            Description = description ?? string.Empty;
             CreateAt = DateTime.UtcNow;
             UpdateAt = DateTime.UtcNow;
         }
@@ -35,10 +35,17 @@ namespace Domain.Forms
             UpdateAt = DateTime.UtcNow;
         }
 
+        public void UpdateTitle(string title)
+        {
+            Title = title;
+            UpdateAt = DateTime.UtcNow;
+        }
+
         public void UpdateDescription(string description)
         {
             Description = description;
             UpdateAt = DateTime.UtcNow;
         }
+
     }
 }
