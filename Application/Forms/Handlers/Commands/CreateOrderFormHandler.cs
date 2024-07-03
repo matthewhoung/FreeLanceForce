@@ -6,14 +6,14 @@ using MediatR;
 
 namespace Application.Forms.Handlers.Commands
 {
-    public class CreateFormHandler : IRequestHandler<CreateFormCommand, int>
+    public class CreateOrderFormHandler : IRequestHandler<CreateOrderFormCommand, int>
     {
         private readonly IGenericFormRepository _formRepository;
         private readonly IOrderFormRepository _orderFormRepository;
         private readonly ISerialNumberRepository _serialNumberRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateFormHandler(
+        public CreateOrderFormHandler(
             IGenericFormRepository formRepository,
             IOrderFormRepository orderFormRepository,
             ISerialNumberRepository serialNumberRepository,
@@ -25,7 +25,7 @@ namespace Application.Forms.Handlers.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> Handle(CreateFormCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateOrderFormCommand request, CancellationToken cancellationToken)
         {
             await _unitOfWork.BeginTransactionAsync();
             try

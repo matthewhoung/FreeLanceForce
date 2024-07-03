@@ -3,11 +3,11 @@ using MediatR;
 
 namespace Application.Forms.Commands
 {
-    public class CreateFormCommand : IRequest<int>
+    public class CreateOrderFormCommand : IRequest<int>
     {
         public CreateFormDTO CreateFormDto { get; set; }
 
-        public CreateFormCommand(CreateFormDTO createFormDto)
+        public CreateOrderFormCommand(CreateFormDTO createFormDto)
         {
             CreateFormDto = createFormDto;
         }

@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreateFormCommand command)
+        public async Task<IActionResult> Create([FromBody]CreateOrderFormCommand command)
         {
             try
             {
