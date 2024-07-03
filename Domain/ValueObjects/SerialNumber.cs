@@ -1,4 +1,4 @@
-﻿namespace Domain.Forms
+﻿namespace Domain.ValueObjects
 {
     public class SerialNumber
     {

@@ -13,38 +13,6 @@ namespace Persistence.Repositories
         {
             _context = context;
         }
-        //Advanced Querying
-        public async Task<OrderFormDto> GetOrderFormDetailsByIdAsync(int formId)
-        {
-            var query = from orderform in _context.OrderForms
-                        join form in _context.Forms on orderform.FormId equals form.Id
-                        where orderform.FormId == formId
-                        select new OrderFormDto
-                        {
-                            FormId = form.Id,
-                            ProductId = form.ProductId,
-                            Stage = form.Stage,
-                            ProcurementId = orderform.ProcurementId,
-                            SerialNumber = orderform.SerialNumber,
-                            Title = orderform.Title,
-                            Description = orderform.Description,
-                            Status = orderform.Status,
-                            CreatedAt = orderform.CreateAt,
-                            UpdatedAt = orderform.UpdateAt
-                        };
-
-            return await query.FirstOrDefaultAsync();
-        }
-
-        public async Task<OrderForm> GetByIdAsync(int formId)
-        {
-            return await _context.OrderForms.FindAsync(formId);
-        }
-
-        public async Task<IEnumerable<OrderForm>> GetAllAsync()
-        {
-            return await _context.OrderForms.ToListAsync();
-        }
 
         public async Task<int> AddAsync(OrderForm orderForm)
         {

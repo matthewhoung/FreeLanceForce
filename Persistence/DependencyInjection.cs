@@ -8,7 +8,7 @@ namespace Persistence
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services)
         {
-            services.AddScoped<IFormRepository, FormRepository>();
+            services.AddScoped<IGenericFormRepository, GenericFormRepository>();
             services.AddScoped<IOrderFormRepository, OrderFormRepository>();
             services.AddScoped<ISerialNumberRepository, SerialNumberRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

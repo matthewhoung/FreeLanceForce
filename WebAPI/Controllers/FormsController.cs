@@ -1,6 +1,5 @@
 ﻿using Application.Forms.Commands;
 using Application.Forms.Queries;
-using Domain.Forms;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,41 +33,18 @@ namespace WebAPI.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Form>> GetByIdAsync([FromBody]int id)
+        [HttpGet("{formId}")]
+        public async Task<IActionResult> GetFormDetailsByFormId(int formId)
         {
-            var query = new GetFormByIdQuery(id);
-            var form = await _mediator.Send(query);
-            if (form == null)
-            {
-                return NotFound();
-            }
-            return Ok(form);
-        }
-
-        [HttpGet("details/{id}")]
-        public async Task<IActionResult> GetOrderFormDetails(int id)
-        {
-            var query = new GetOrderFormByIdQuery(id);
+            var query = new GetFormByIdQuery(formId);
             var orderFormDetails = await _mediator.Send(query);
 
             if (orderFormDetails == null)
             {
-                return NotFound(new { Message = $"Order form with Id {id} not found." });
+                return NotFound(new { Message = $"Order form with Id {formId} not found." });
             }
 
             return Ok(orderFormDetails);
         }
-
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Form>>> GetAllAsync()
-        {
-            var query = new GetAllFormsQuery();
-            var forms = await _mediator.Send(query);
-            return Ok(forms);
-        }
-
     }
 }

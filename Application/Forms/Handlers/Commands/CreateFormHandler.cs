@@ -8,13 +8,13 @@ namespace Application.Forms.Handlers.Commands
 {
     public class CreateFormHandler : IRequestHandler<CreateFormCommand, int>
     {
-        private readonly IFormRepository _formRepository;
+        private readonly IGenericFormRepository _formRepository;
         private readonly IOrderFormRepository _orderFormRepository;
         private readonly ISerialNumberRepository _serialNumberRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateFormHandler(
-            IFormRepository formRepository,
+            IGenericFormRepository formRepository,
             IOrderFormRepository orderFormRepository,
             ISerialNumberRepository serialNumberRepository,
             IUnitOfWork unitOfWork)

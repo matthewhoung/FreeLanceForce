@@ -1,15 +1,15 @@
-﻿using Domain.Forms;
+﻿using Application.Forms.DTOs;
 using MediatR;
 
 namespace Application.Forms.Queries
 {
-    public class GetFormByIdQuery : IRequest<Form>
+    public class GetFormByIdQuery : IRequest<FormDetailDto>
     {
-        public int Id { get; set; }
+        public int FormId { get; set; }
 
-        public GetFormByIdQuery(int id)
+        public GetFormByIdQuery(int formId)
         {
-            Id = id;
+            FormId = formId;
         }
     }
 }

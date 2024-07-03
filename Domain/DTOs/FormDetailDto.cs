@@ -3,7 +3,7 @@ using Domain.Forms.Enums;
 
 namespace Application.Forms.DTOs
 {
-    public class OrderFormDto
+    public class FormDetailDto
     {
         public int FormId { get; set; }
         public int ProductId { get; set; }

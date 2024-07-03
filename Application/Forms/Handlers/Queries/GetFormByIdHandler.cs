@@ -1,22 +1,22 @@
-﻿using Application.Forms.Queries;
-using Domain.Forms;
+﻿using Application.Forms.DTOs;
+using Application.Forms.Queries;
 using Domain.Interfaces;
 using MediatR;
 
 namespace Application.Forms.Handlers.Queries
 {
-    public class GetFormByIdHandler : IRequestHandler<GetFormByIdQuery, Form>
+    public class GetFormByIdHandler : IRequestHandler<GetFormByIdQuery, FormDetailDto>
     {
-        private readonly IFormRepository _formRepository;
+        private readonly IGenericFormRepository _formRepository;
 
-        public GetFormByIdHandler(IFormRepository formRepository)
+        public GetFormByIdHandler(IGenericFormRepository formRepository)
         {
             _formRepository = formRepository;
         }
 
-        public async Task<Form> Handle(GetFormByIdQuery request, CancellationToken cancellationToken)
+        public async Task<FormDetailDto> Handle(GetFormByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _formRepository.GetByIdAsync(request.Id);
+            return await _formRepository.GetFormDetailsByIdAsync(request.FormId);
         }
     }
 }
