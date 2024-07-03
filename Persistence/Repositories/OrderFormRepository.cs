@@ -1,7 +1,5 @@
-﻿using Application.Forms.DTOs;
-using Domain.Entities.Forms;
+﻿using Domain.Entities.Forms;
 using Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {

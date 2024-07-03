@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Configurations
 {
-    public class OrderFormConfiguration : IEntityTypeConfiguration<OrderForm>
+    public class PaymentFormConfiguration : IEntityTypeConfiguration<PaymentForm>
     {
-        public void Configure(EntityTypeBuilder<OrderForm> builder)
+        public void Configure(EntityTypeBuilder<PaymentForm> builder)
         {
             builder.HasKey(of => of.ProcurementId);
 

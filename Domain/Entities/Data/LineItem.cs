@@ -1,46 +1,52 @@
-﻿using Domain.ValueObjects;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
     public class LineItem
     {
         public int LineItemId { get; private set; }
         public int FormId { get; private set; }
-        public List<LineItemDetail> LineItemDetails { get; private set; } = new List<LineItemDetail>();
+        public string Title { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
+        public int Quantity { get; private set; }
+        public decimal Total { get; private set; }
+        public bool IsApproved { get; private set; }
+        public DateTime? ApprovedAt { get; private set; }
+        public bool IsRejected { get; private set; }
+        public DateTime? RejectedAt { get; private set; }
 
-        private LineItem()
-        { 
-        }
+        private LineItem() { }
 
-        public LineItem(int formId)
+        public LineItem(int formId, string title, string description, decimal price, int quantity)
         {
             FormId = formId;
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Description = description;
+            Price = price;
+            Quantity = quantity;
+            Total = price * quantity;
         }
 
-        public void AddLineItemDetail(LineItemDetail lineItemDetail)
+        public void Approve(DateTime approvedAt)
         {
-            if (lineItemDetail == null) 
-                throw new ArgumentNullException(nameof(lineItemDetail));
-
-            LineItemDetails.Add(lineItemDetail);
+            IsApproved = true;
+            ApprovedAt = approvedAt;
+            IsRejected = false;
+            RejectedAt = null;
         }
 
-        public void ApproveDetail(int detailIndex, DateTime approvedAt)
+        public void Reject(DateTime rejectedAt)
         {
-            if (detailIndex < 0 || detailIndex >= LineItemDetails.Count) 
-                throw new ArgumentOutOfRangeException(nameof(detailIndex));
-
-            var detail = LineItemDetails[detailIndex];
-            detail.Approve(approvedAt);
+            IsApproved = false;
+            IsRejected = true;
+            RejectedAt = rejectedAt;
         }
 
-        public void RejectDetail(int detailIndex, DateTime rejectedAt)
+        public void UpdateDetails(string title, string description, decimal price, int quantity)
         {
-            if (detailIndex < 0 || detailIndex >= LineItemDetails.Count) 
-                throw new ArgumentOutOfRangeException(nameof(detailIndex));
-
-            var detail = LineItemDetails[detailIndex];
-            detail.Reject(rejectedAt);
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Description = description;
+            Price = price;
+            Quantity = quantity;
         }
     }
 }
