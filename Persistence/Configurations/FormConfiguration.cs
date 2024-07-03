@@ -17,6 +17,7 @@ namespace Persistence.Configurations
                 .IsRequired();
 
             builder.Property(f => f.Stage)
+                .IsRequired()
                 .HasConversion(
                     stage => stage.Value,
                     value => Stages.FromValue(value)
