@@ -13,74 +13,55 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public async Task<string> SerialNumberAsync(int formId, string stage, bool? isAttach)
+        public async Task<string> GenerateSerialNumberAsync(int formId, string stage, bool? isAttach)
         {
             if (isAttach != null)
             {
-                return await AttachmentSerialNumberAsync(formId, isAttach.Value);
+                var baseSerialNumber = await GetBaseSerialNumberAsync(formId);
+                return new SerialNumber().GenerateForAttachment(baseSerialNumber, isAttach.Value);
             }
 
-            int currentSerialCount = await CountValidSerialNumberAsync();
-            string serialNumber = new SerialNumber().SerialNumberGenerator(formId, stage, currentSerialCount);
+            int currentSerialCount = await CountValidSerialNumbersAsync();
+            string serialNumber = new SerialNumber().Generate(formId, stage, currentSerialCount);
 
             switch (stage)
             {
                 case "OrderForm":
                     return serialNumber;
-
                 case "AcceptanceForm":
-                    string acceptanceFormSerial = await GetSerialNumberAsync(formId, "OrderForm");
-                    acceptanceFormSerial = acceptanceFormSerial.Replace("O", "A");
-                    return acceptanceFormSerial;
-
+                    var orderFormSerial = await GetSerialNumberAsync(formId, "OrderForm");
+                    return new SerialNumber().TransformForStage(orderFormSerial, "OrderForm", "AcceptanceForm");
                 case "PaymentForm":
-                    string paymentFormSerialNumber = await GetSerialNumberAsync(formId, "AcceptanceForm");
-                    paymentFormSerialNumber = paymentFormSerialNumber.Replace("A", "P");
-                    return paymentFormSerialNumber;
-
+                    var acceptanceFormSerial = await GetSerialNumberAsync(formId, "AcceptanceForm");
+                    return new SerialNumber().TransformForStage(acceptanceFormSerial, "AcceptanceForm", "PaymentForm");
                 default:
                     throw new ArgumentException($"{stage} is an invalid input.");
             }
         }
 
-        private async Task<int> CountValidSerialNumberAsync()
+        private async Task<int> CountValidSerialNumbersAsync()
         {
             var currentDateTime = DateTime.UtcNow.ToString("MMddyyyy");
-
-            int currentSerialCount = await _context.OrderForms
-                .Where(of => EF.Functions.Like(of.SerialNumber, $"%{currentDateTime}%") &&
-                             !of.SerialNumber.EndsWith("A") &&
-                             !of.SerialNumber.EndsWith("B"))
-                .CountAsync();
-
-            return currentSerialCount;
+            return await _context.OrderForms
+                .CountAsync(of => EF.Functions.Like(of.SerialNumber, $"%{currentDateTime}%") &&
+                                  !of.SerialNumber.EndsWith("A") &&
+                                  !of.SerialNumber.EndsWith("B"));
         }
 
         private async Task<string> GetSerialNumberAsync(int formId, string stage)
         {
-            var orderFormNumber = await _context.OrderForms
+            return await _context.OrderForms
                 .Where(of => of.FormId == formId)
                 .Select(of => of.SerialNumber)
                 .FirstOrDefaultAsync();
-
-            return orderFormNumber;
         }
-        
 
-        private async Task<string> AttachmentSerialNumberAsync(int formId, bool isAttach)
+        private async Task<string> GetBaseSerialNumberAsync(int formId)
         {
-            const string stageconst = "OrderForm";
-            string targetSerialNumber = await GetSerialNumberAsync(formId, stageconst);
-
-            switch (isAttach)
-            {
-                case true:
-                    return $"{targetSerialNumber}-A";
-                case false:
-                    return $"{targetSerialNumber}-B";
-                default:
-                    throw new ArgumentException($"{isAttach} is an invalid input.");
-            }
+            return await _context.OrderForms
+                .Where(of => of.FormId == formId)
+                .Select(of => of.SerialNumber)
+                .FirstOrDefaultAsync();
         }
     }
 }

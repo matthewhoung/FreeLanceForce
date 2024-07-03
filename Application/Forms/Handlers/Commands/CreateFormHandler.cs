@@ -41,7 +41,7 @@ namespace Application.Forms.Handlers.Commands
                 var createdFormId = await _formRepository.AddAsync(form);
 
                 //取得採購單編號                
-                var serialNumber = await _serialNumberRepository.SerialNumberAsync(
+                var serialNumber = await _serialNumberRepository.GenerateSerialNumberAsync(
                     formId: dto.FormId ?? createdFormId,//唯有追加追減建構時才需要填入
                     stage: dto.Stage ?? "OrderForm",
                     isAttach: dto.IsAttach ?? null);//true:追加單, false:追減單
