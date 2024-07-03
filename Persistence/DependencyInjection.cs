@@ -10,6 +10,7 @@ namespace Persistence
         {
             services.AddScoped<IGenericFormRepository, GenericFormRepository>();
             services.AddScoped<IOrderFormRepository, OrderFormRepository>();
+            services.AddScoped<IAcceptanceFormRepository, AcceptanceFormRepository>();
             services.AddScoped<ISerialNumberRepository, SerialNumberRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

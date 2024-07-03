@@ -33,6 +33,25 @@ namespace WebAPI.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
+        [HttpPost("acceptance")]
+        public async Task<IActionResult> CreateAcceptanceForm([FromBody] CreateAcceptanceFormCommand command)
+        {
+            try
+            {
+                var formId = await _mediator.Send(command);
+                return Ok(new { Id = formId });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
         [HttpGet("{formId}")]
         public async Task<IActionResult> GetFormDetailsByFormId(int formId)
         {
