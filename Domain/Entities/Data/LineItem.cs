@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain.ValueObjects;
+﻿using Domain.ValueObjects;
 
 namespace Domain.Entities
 {

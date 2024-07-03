@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Domain.ValueObjects
+﻿namespace Domain.ValueObjects
 {
     public class LineItemDetail
     {
@@ -43,10 +41,9 @@ namespace Domain.ValueObjects
 
         public void Reject(DateTime rejectedAt)
         {
+            IsApproved = false;
             IsRejected = true;
             RejectedAt = rejectedAt;
-            IsApproved = false;
-            ApprovedAt = null;
         }
     }
 }
