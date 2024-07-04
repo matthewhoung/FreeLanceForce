@@ -9,8 +9,7 @@ namespace Domain.Services
 
         public ApprovalService(List<Signature> signatures)
         {
-            _signatures = signatures ?? 
-                throw new ArgumentNullException(nameof(signatures));
+            _signatures = signatures;
         }
 
         public void ApproveSignature(int formId, int userId, DateTime approvedAt)

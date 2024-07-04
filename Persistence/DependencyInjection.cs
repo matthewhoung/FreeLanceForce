@@ -1,4 +1,6 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Entities;
+using Domain.Interfaces;
+using Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Repositories;
 
@@ -13,6 +15,9 @@ namespace Persistence
             services.AddScoped<IAcceptanceFormRepository, AcceptanceFormRepository>();
             services.AddScoped<ISerialNumberRepository, SerialNumberRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ApprovalService>();
+
+            services.AddScoped(provider => new List<Signature>());
 
             return services;
         }
