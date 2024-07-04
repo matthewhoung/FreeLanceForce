@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Entities.Forms;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Configurations;
 
 namespace Persistence
 {
@@ -23,7 +24,10 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.ApplyConfiguration(new SignatureConfiguration("OrderFormSignatures"));
+            modelBuilder.ApplyConfiguration(new SignatureConfiguration("AcceptanceFormSignatures"));
+            modelBuilder.ApplyConfiguration(new SignatureConfiguration("PaymentFormSignatures"));
         }
     }
 }

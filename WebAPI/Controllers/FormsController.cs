@@ -1,4 +1,5 @@
 ﻿using Application.Forms.Commands;
+using Application.Forms.DTOs;
 using Application.Forms.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,16 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPost("signature/members")]
+        public async Task<IActionResult> AddSignatures([FromBody] IEnumerable<SignatureMemberDTO> signatureDtos)
+        {
+            var command = new AddSignatureCommand(signatureDtos);
+            var signatureIds = await _mediator.Send(command);
+
+            return Ok(new { SignatureIds = signatureIds });
+        }
+
+        /*
         [HttpPost("acceptance")]
         public async Task<IActionResult> CreateAcceptanceForm([FromBody] CreateAcceptanceFormCommand command)
         {
@@ -51,6 +62,7 @@ namespace WebAPI.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+        */
 
         [HttpGet("{formId}")]
         public async Task<IActionResult> GetFormDetailsByFormId(int formId)

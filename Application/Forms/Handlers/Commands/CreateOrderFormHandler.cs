@@ -38,7 +38,7 @@ namespace Application.Forms.Handlers.Commands
                     stage: dto.Stage ?? "OrderForm"
                 );
 
-                var createdFormId = await _formRepository.AddAsync(form);
+                var createdFormId = await _formRepository.AddBaseFormAsync(form);
 
                 //取得採購單編號                
                 var serialNumber = await _serialNumberRepository.GenerateSerialNumberAsync(

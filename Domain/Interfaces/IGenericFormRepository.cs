@@ -1,13 +1,13 @@
 ﻿using Application.Forms.DTOs;
+using Domain.Entities;
 using Domain.Entities.Forms;
 
 namespace Domain.Interfaces
 {
     public interface IGenericFormRepository
     {
+        Task<int> AddBaseFormAsync(Form form);
         Task<FormDetailDto> GetFormDetailsByIdAsync(int formId);
-        Task<int> AddAsync(Form form);
-        Task UpdateAsync(Form form);
-        Task DeleteAsync(int id);
+        Task<IEnumerable<int>> AddSignatureMembersAsync(IEnumerable<Signature> signatures);
     }
 }

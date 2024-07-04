@@ -9,9 +9,9 @@ namespace Domain.Entities
         public int UserId { get; private set; }
         public Roles Role { get; private set; }
         public string? Memo { get; private set; }
-        public bool IsApproved { get; private set; }
+        public bool? IsApproved { get; private set; }
         public DateTime? ApprovedAt { get; private set; }
-        public bool IsRejected { get; private set; }
+        public bool? IsRejected { get; private set; }
         public DateTime? RejectedAt { get; private set; }
 
         private Signature()

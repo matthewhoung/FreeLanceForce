@@ -1,4 +1,5 @@
 ﻿using Application.Forms.DTOs;
+using Domain.Entities;
 using Domain.Entities.Forms;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -35,27 +36,18 @@ namespace Persistence.Repositories
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<int> AddAsync(Form form)
+        public async Task<int> AddBaseFormAsync(Form form)
         {
             var createdForm = await _context.Forms.AddAsync(form);
             await _context.SaveChangesAsync();
             return createdForm.Entity.Id;
         }
 
-        public async Task UpdateAsync(Form form)
+        public async Task<IEnumerable<int>> AddSignatureMembersAsync(IEnumerable<Signature> signatures)
         {
-            _context.Forms.Update(form);
+            _context.OrderFormSignatures.AddRange(signatures);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var form = await _context.Forms.FindAsync(id);
-            if (form != null)
-            {
-                _context.Forms.Remove(form);
-                await _context.SaveChangesAsync();
-            }
+            return signatures.Select(s => s.SignatureId);
         }
     }
 }

@@ -14,14 +14,12 @@ namespace Domain.Services
 
         public void ApproveSignature(int formId, int userId, DateTime approvedAt)
         {
-            var signature = _signatures.FirstOrDefault(s => s.FormId == formId && 
-                                                       s.UserId == userId);
+            var signature = _signatures.FirstOrDefault(s => s.FormId == formId && s.UserId == userId);
             if (signature == null)
                 throw new InvalidOperationException("Signature not found.");
 
             if (signature.Role == Roles.Director)
                 EnsureManagerSigned(formId);
-
             else if (signature.Role == Roles.Manager)
                 EnsureParticipantsSigned(formId);
 
@@ -30,8 +28,7 @@ namespace Domain.Services
 
         public void RejectSignature(int formId, int userId, DateTime rejectedAt)
         {
-            var signature = _signatures.FirstOrDefault(s => s.FormId == formId && 
-                                                       s.UserId == userId);
+            var signature = _signatures.FirstOrDefault(s => s.FormId == formId && s.UserId == userId);
             if (signature == null)
                 throw new InvalidOperationException("Signature not found.");
 
@@ -40,10 +37,8 @@ namespace Domain.Services
 
         private void EnsureParticipantsSigned(int formId)
         {
-            if (_signatures.Any(s => s.FormId == formId && 
-                               !s.IsApproved && 
-                                s.Role != Roles.Manager && 
-                                s.Role != Roles.Director))
+            if (_signatures.Any(s => s.FormId == formId && (s.IsApproved == false || s.IsApproved == null) &&
+                                s.Role != Roles.Manager && s.Role != Roles.Director))
             {
                 throw new InvalidOperationException("All participants must sign before the Manager.");
             }
@@ -51,9 +46,8 @@ namespace Domain.Services
 
         private void EnsureManagerSigned(int formId)
         {
-            var managerSignature = _signatures.FirstOrDefault(s => s.FormId == formId && 
-                                                                   s.Role == Roles.Manager);
-            if (managerSignature == null || !managerSignature.IsApproved)
+            var managerSignature = _signatures.FirstOrDefault(s => s.FormId == formId && s.Role == Roles.Manager);
+            if (managerSignature == null || managerSignature.IsApproved == false || managerSignature.IsApproved == null)
             {
                 throw new InvalidOperationException("Manager must sign before the Director.");
             }
