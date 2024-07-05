@@ -12,6 +12,8 @@ namespace Domain.Entities.Forms
 
         // Navigation property
         public ICollection<OrderForm> OrderForms { get; private set; } = new List<OrderForm>();
+        public ICollection<AcceptanceForm> AcceptanceForms { get; private set; } = new List<AcceptanceForm>();
+        public ICollection<PaymentForm> PaymentForms { get; private set; } = new List<PaymentForm>();
 
         // EF Core uses this constructor
         private Form()
