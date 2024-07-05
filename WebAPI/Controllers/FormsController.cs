@@ -43,6 +43,14 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("lineitem")]
+        public async Task<IActionResult> CreateLineItems([FromBody] List<CreateLineItemDTO> lineItems)
+        {
+            var command = new CreateLineItemCommand(lineItems);
+            await _mediator.Send(command);
+            return Ok();
+        }
+
         [HttpGet("{formId}")]
         public async Task<IActionResult> GetFormDetailsByFormId(int formId)
         {

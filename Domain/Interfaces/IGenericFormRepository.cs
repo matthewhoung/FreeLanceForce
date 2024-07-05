@@ -7,7 +7,8 @@ namespace Domain.Interfaces
     public interface IGenericFormRepository
     {
         Task<int> AddBaseFormAsync(Form form);
-        Task<FormDetailDto> GetFormDetailsByIdAsync(int formId);
         Task AddSignatureMembersAsync(IEnumerable<Signature> signatureMembers);
+        Task AddLineItemsAsync(IEnumerable<LineItem> lineItems);
+        Task<FormDetailDto> GetFormDetailsByIdAsync(int formId);
     }
 }

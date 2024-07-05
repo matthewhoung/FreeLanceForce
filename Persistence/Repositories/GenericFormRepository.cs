@@ -55,5 +55,19 @@ namespace Persistence.Repositories
             _context.OrderFormSignatures.AddRange(orderFormSignatures);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddLineItemsAsync(IEnumerable<LineItem> itemDetail)
+        {
+            var lineItems = itemDetail.Select(item => new LineItem(
+                item.FormId,
+                item.Title,
+                item.Description,
+                item.Price,
+                item.Quantity
+                )).ToList();
+
+            _context.LineItems.AddRange(lineItems);
+            await _context.SaveChangesAsync();
+        }
     }
 }
