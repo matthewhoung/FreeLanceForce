@@ -64,5 +64,19 @@ namespace WebAPI.Controllers
 
             return Ok(orderFormDetails);
         }
+
+        [HttpGet("{formId}/signature")]
+        public async Task<IActionResult> GetSignatureByFormId(int formId)
+        {
+            var query = new GetSignatureByIdQuery(formId);
+            var signatures = await _mediator.Send(query);
+
+            if (signatures == null)
+            {
+                return NotFound(new { Message = $"Signatures for form with Id {formId} not found." });
+            }
+
+            return Ok(signatures);
+        }
     }
 }

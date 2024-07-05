@@ -1,4 +1,5 @@
 ﻿using Application.Forms.DTOs;
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Entities.Forms;
 using Domain.Interfaces;
@@ -34,6 +35,25 @@ namespace Persistence.Repositories
                         };
 
             return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<SignatureDto>> GetFromSignaturesAsync(int formId)
+        {
+            var query = from OrderFormSignatures in _context.OrderFormSignatures
+                        where OrderFormSignatures.FormId == formId
+                        select new SignatureDto
+                        {
+                            FormId = OrderFormSignatures.FormId,
+                            UserId = OrderFormSignatures.UserId,
+                            Role = OrderFormSignatures.Role.ToString(),
+                            Memo = OrderFormSignatures.Memo,
+                            IsApproved = OrderFormSignatures.IsApproved,
+                            ApprovedAt = OrderFormSignatures.ApprovedAt,
+                            IsRejected = OrderFormSignatures.IsRejected,
+                            RejectedAt = OrderFormSignatures.RejectedAt
+                        };
+
+            return await query.ToListAsync();
         }
 
         public async Task<int> AddBaseFormAsync(Form form)
