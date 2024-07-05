@@ -14,7 +14,7 @@ namespace Domain.Entities
         public bool? IsRejected { get; private set; }
         public DateTime? RejectedAt { get; private set; }
 
-        private Signature()
+        protected Signature()
         {
         }
 

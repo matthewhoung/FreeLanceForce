@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Entities.Forms;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Configurations;
 
 namespace Persistence
 {
@@ -13,9 +12,11 @@ namespace Persistence
         public DbSet<AcceptanceForm> AcceptanceForms { get; set; }
         public DbSet<PaymentForm> PaymentForms { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
-        public DbSet<Signature> OrderFormSignatures { get; set; }
-        public DbSet<Signature> AcceptanceFormSignatures { get; set; }
-        public DbSet<Signature> PaymentFormSignatures { get; set; }
+
+        public DbSet<OrderFormSignature> OrderFormSignatures { get; set; }
+        public DbSet<AcceptanceFormSignature> AcceptanceFormSignatures { get; set; }
+        public DbSet<PaymentFormSignature> PaymentFormSignatures { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,10 +25,8 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-            modelBuilder.ApplyConfiguration(new SignatureConfiguration("OrderFormSignatures"));
-            modelBuilder.ApplyConfiguration(new SignatureConfiguration("AcceptanceFormSignatures"));
-            modelBuilder.ApplyConfiguration(new SignatureConfiguration("PaymentFormSignatures"));
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            
         }
     }
 }

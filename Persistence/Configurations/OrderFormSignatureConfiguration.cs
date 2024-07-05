@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Configurations
 {
-    public class OrderFormSignatureConfiguration : IEntityTypeConfiguration<Signature>
+    public class OrderFormSignatureConfiguration : IEntityTypeConfiguration<OrderFormSignature>
     {
-        public void Configure(EntityTypeBuilder<Signature> builder)
+        public void Configure(EntityTypeBuilder<OrderFormSignature> builder)
         {
             builder.ToTable("OrderFormSignatures");
             builder.HasKey(s => s.SignatureId);
@@ -23,9 +23,9 @@ namespace Persistence.Configurations
                        value => Roles.FromValue(value)
                    );
             builder.Property(s => s.Memo).HasMaxLength(500);
-            builder.Property(s => s.IsApproved).IsRequired();
+            builder.Property(s => s.IsApproved);
             builder.Property(s => s.ApprovedAt).HasColumnType("datetime");
-            builder.Property(s => s.IsRejected).IsRequired();
+            builder.Property(s => s.IsRejected);
             builder.Property(s => s.RejectedAt).HasColumnType("datetime");
 
             builder.HasOne<Form>()

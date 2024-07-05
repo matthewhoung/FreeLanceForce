@@ -8,6 +8,6 @@ namespace Domain.Interfaces
     {
         Task<int> AddBaseFormAsync(Form form);
         Task<FormDetailDto> GetFormDetailsByIdAsync(int formId);
-        Task<IEnumerable<int>> AddSignatureMembersAsync(IEnumerable<Signature> signatures);
+        Task AddSignatureMembersAsync(IEnumerable<Signature> signatureMembers);
     }
 }

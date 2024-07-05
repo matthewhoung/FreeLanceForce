@@ -35,34 +35,13 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost("signature/members")]
-        public async Task<IActionResult> AddSignatures([FromBody] IEnumerable<SignatureMemberDTO> signatureDtos)
+        [HttpPost("signature/member")]
+        public async Task<IActionResult> CreateSignatureMembers([FromBody] List<CreateSignatureMemberDTO> signatureMembers)
         {
-            var command = new AddSignatureCommand(signatureDtos);
-            var signatureIds = await _mediator.Send(command);
-
-            return Ok(new { SignatureIds = signatureIds });
+            var command = new CreateSignatureMemberCommand(signatureMembers);
+            await _mediator.Send(command);
+            return Ok();
         }
-
-        /*
-        [HttpPost("acceptance")]
-        public async Task<IActionResult> CreateAcceptanceForm([FromBody] CreateAcceptanceFormCommand command)
-        {
-            try
-            {
-                var formId = await _mediator.Send(command);
-                return Ok(new { Id = formId });
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { Error = ex.Message });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return StatusCode(500, new { Error = ex.Message });
-            }
-        }
-        */
 
         [HttpGet("{formId}")]
         public async Task<IActionResult> GetFormDetailsByFormId(int formId)

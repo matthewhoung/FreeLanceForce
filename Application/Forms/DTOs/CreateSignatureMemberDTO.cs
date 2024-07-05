@@ -1,6 +1,6 @@
 ﻿namespace Application.Forms.DTOs
 {
-    public class SignatureMemberDTO
+    public class CreateSignatureMemberDTO
     {
         public int FormId { get; set; }
         public int UserId { get; set; }
