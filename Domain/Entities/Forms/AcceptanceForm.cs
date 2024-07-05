@@ -2,6 +2,7 @@
 
 namespace Domain.Entities.Forms
 {
+
     public class AcceptanceForm
     {
         public Form Form { get; private set; }

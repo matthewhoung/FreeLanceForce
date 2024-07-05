@@ -13,6 +13,7 @@ namespace Persistence.Configurations
 
             builder.Property(f => f.Id)
                 .ValueGeneratedOnAdd();
+
             builder.Property(f => f.ProductId)
                 .IsRequired();
 
@@ -29,10 +30,20 @@ namespace Persistence.Configurations
             builder.Property(f => f.UpdateAt)
                 .IsRequired()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            
+            builder.HasMany<OrderForm>()
+                  .WithOne()
+                  .HasForeignKey(of => of.FormId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(f => f.OrderForms)
-                   .WithOne(of => of.Form)
-                   .HasForeignKey(of => of.FormId)
+            builder.HasMany<AcceptanceForm>()
+                   .WithOne()
+                   .HasForeignKey(af => af.FormId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany<PaymentForm>()
+                   .WithOne()
+                   .HasForeignKey(pf => pf.FormId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

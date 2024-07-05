@@ -16,7 +16,7 @@ namespace Domain.Entities.Forms
         public ICollection<PaymentForm> PaymentForms { get; private set; } = new List<PaymentForm>();
 
         // EF Core uses this constructor
-        private Form()
+        protected Form()
         {
         }
 
