@@ -34,20 +34,20 @@ namespace Domain.Entities
             Memo = memo;
         }
 
-        public void Approve(DateTime approvedAt,string? memo)
+        public void Approve(string? memo)
         {
             IsApproved = true;
-            ApprovedAt = approvedAt;
+            ApprovedAt = DateTime.UtcNow;
             IsRejected = false;
             RejectedAt = null;
             Memo = memo;
         }
 
-        public void Reject(DateTime rejectedAt,string? memo)
+        public void Reject(string? memo)
         {
             IsApproved = false;
             IsRejected = true;
-            RejectedAt = rejectedAt;
+            RejectedAt = DateTime.UtcNow;
             Memo = memo;
         }
     }

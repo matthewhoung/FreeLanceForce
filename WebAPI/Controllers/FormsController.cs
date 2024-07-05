@@ -65,7 +65,7 @@ namespace WebAPI.Controllers
             return Ok(orderFormDetails);
         }
 
-        [HttpGet("{formId}/signature")]
+        [HttpGet("/signature/member/{formId}")]
         public async Task<IActionResult> GetSignatureByFormId(int formId)
         {
             var query = new GetSignatureByIdQuery(formId);
@@ -77,6 +77,13 @@ namespace WebAPI.Controllers
             }
 
             return Ok(signatures);
+        }
+
+        [HttpPut("/signature/member/approve")]
+        public async Task<IActionResult> UpdateSignatureStatus([FromBody] UpdateSignatureCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
         }
     }
 }
