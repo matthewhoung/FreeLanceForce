@@ -20,6 +20,32 @@ namespace Persistence.Repositories
             return createdOrderForm.Entity.ProcurementId;
         }
 
+        public async Task UpdateSignatureAsync(int formId, int userId, bool isApproved, bool isRejected, string? memo)
+        {
+            var orderFormSignature = await _context.OrderFormSignatures.FindAsync(formId, userId);
+
+            if (orderFormSignature == null)
+            {
+                throw new ArgumentException("Signature not found.");
+            }
+
+            switch (isApproved, isRejected)
+            {
+                case (true, false):
+                    orderFormSignature.Approve(DateTime.Now, memo);
+                    await _context.SaveChangesAsync();
+                    break;
+
+                case (false, true):
+                    orderFormSignature.Reject(DateTime.Now, memo);
+                    await _context.SaveChangesAsync();
+                    break;
+
+                default:
+                    _: throw new ArgumentException("Invalid signature status.");
+            }
+        }
+
         public async Task UpdateStatusAsync(int formId, Status status)
         {
             var orderForm = await _context.OrderForms.FindAsync(formId);
