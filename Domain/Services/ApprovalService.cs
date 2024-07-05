@@ -12,7 +12,7 @@ namespace Domain.Services
             _signatures = signatures;
         }
 
-        public void ApproveSignature(int formId, int userId, DateTime approvedAt)
+        public void ApproveSignature(int formId, int userId, DateTime approvedAt,string? memo)
         {
             var signature = _signatures.FirstOrDefault(s => s.FormId == formId && s.UserId == userId);
             if (signature == null)
@@ -23,16 +23,16 @@ namespace Domain.Services
             else if (signature.Role == Roles.Manager)
                 EnsureParticipantsSigned(formId);
 
-            signature.Approve(approvedAt);
+            signature.Approve(approvedAt, memo);
         }
 
-        public void RejectSignature(int formId, int userId, DateTime rejectedAt)
+        public void RejectSignature(int formId, int userId, DateTime rejectedAt, string? memo)
         {
             var signature = _signatures.FirstOrDefault(s => s.FormId == formId && s.UserId == userId);
             if (signature == null)
                 throw new InvalidOperationException("Signature not found.");
 
-            signature.Reject(rejectedAt);
+            signature.Reject(rejectedAt, memo);
         }
 
         private void EnsureParticipantsSigned(int formId)

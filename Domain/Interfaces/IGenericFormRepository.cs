@@ -14,5 +14,6 @@ namespace Domain.Interfaces
         //read
         Task<FormDetailDto> GetFormDetailsByIdAsync(int formId);
         Task<IEnumerable<SignatureDto>> GetFromSignaturesAsync(int formId);
+        Task<IEnumerable<LineItem>> GetLineItemsAsync(int formId);
     }
 }

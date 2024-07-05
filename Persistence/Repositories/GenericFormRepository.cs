@@ -17,6 +17,11 @@ namespace Persistence.Repositories
         }
         public async Task<FormDetailDto> GetFormDetailsByIdAsync(int formId)
         {
+            //signature details
+            var signatures = await GetFromSignaturesAsync(formId);
+            //line item details
+            var lineItems = await GetLineItemsAsync(formId);
+            // base form details
             var query = from orderform in _context.OrderForms
                         join form in _context.Forms on orderform.FormId equals form.Id
                         where orderform.FormId == formId
@@ -31,7 +36,9 @@ namespace Persistence.Repositories
                             Description = orderform.Description,
                             Status = orderform.Status,
                             CreatedAt = orderform.CreateAt,
-                            UpdatedAt = orderform.UpdateAt
+                            UpdatedAt = orderform.UpdateAt,
+                            LineItems = lineItems,
+                            Signatures = signatures
                         };
 
             return await query.FirstOrDefaultAsync();
@@ -52,6 +59,15 @@ namespace Persistence.Repositories
                             IsRejected = OrderFormSignatures.IsRejected,
                             RejectedAt = OrderFormSignatures.RejectedAt
                         };
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<LineItem>> GetLineItemsAsync(int formId)
+        {
+            var query = from lineItem in _context.LineItems
+                        where lineItem.FormId == formId
+                        select lineItem;
 
             return await query.ToListAsync();
         }

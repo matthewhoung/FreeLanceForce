@@ -1,4 +1,6 @@
-﻿using Domain.Enums;
+﻿using Domain.DTOs;
+using Domain.Entities;
+using Domain.Enums;
 
 namespace Application.Forms.DTOs
 {
@@ -14,5 +16,7 @@ namespace Application.Forms.DTOs
         public Status Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public IEnumerable<LineItem> LineItems { get; set; }
+        public IEnumerable<SignatureDto> Signatures { get; set; }
     }
 }
