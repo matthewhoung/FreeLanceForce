@@ -30,6 +30,13 @@ namespace Persistence.Repositories
                                            .Where(s => s.FormId == formId)
                                            .ToListAsync();
 
+            var orderForm = await _context.OrderForms
+                              .Include(of => of.Form) 
+                              .FirstOrDefaultAsync(of => of.FormId == formId);
+
+            if (orderForm == null)
+                throw new InvalidOperationException($"OrderForm with ID {formId} not found.");
+
             var approvalService = new ApprovalService<OrderFormSignature>(signatures);
 
             if (isApproved)
@@ -40,6 +47,9 @@ namespace Persistence.Repositories
             {
                 approvalService.RejectSignature(formId, userId, memo);
             }
+
+            var newStatus = approvalService.GetStatus(formId);
+            orderForm.UpdateStatus(newStatus);
 
             await _context.SaveChangesAsync();
         }
@@ -54,6 +64,7 @@ namespace Persistence.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
 
         public async Task UpdateTitleAsync(int formId, string title)
         {

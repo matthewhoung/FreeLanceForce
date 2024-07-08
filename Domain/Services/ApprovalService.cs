@@ -3,7 +3,8 @@ using Domain.Enums;
 
 namespace Domain.Services
 {
-    public class ApprovalService<T> where T : Signature
+    public class ApprovalService<T> 
+        where T : Signature
     {
         private readonly List<T> _signatures;
 
@@ -36,6 +37,25 @@ namespace Domain.Services
                 throw new InvalidOperationException("Signature not found.");
 
             signature.Reject(memo);
+        }
+
+        public Status GetStatus(int formId)
+        {
+            var signatures = _signatures.Where(s => s.FormId == formId).ToList();
+
+            bool baseStatus = _signatures.All(s => s.IsApproved == false);
+
+            bool isDirectorSigned = _signatures.Any(s => s.Role == Roles.Director && s.IsApproved == true);
+
+            switch (baseStatus, isDirectorSigned)
+            {
+                case (false, true):
+                    return Status.Finished;
+                case (false, false):
+                    return Status.Inprogress;
+                default:
+                    return Status.Pending;
+            }
         }
 
         private bool AreParticipantsSigned()

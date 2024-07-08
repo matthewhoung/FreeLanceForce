@@ -30,21 +30,21 @@ namespace Persistence.Configurations
             builder.Property(f => f.UpdateAt)
                 .IsRequired()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
-            
-            builder.HasMany<OrderForm>()
-                  .WithOne()
+
+            builder.HasMany(f => f.OrderForms)
+                  .WithOne(of => of.Form)
                   .HasForeignKey(of => of.FormId)
                   .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany<AcceptanceForm>()
-                   .WithOne()
-                   .HasForeignKey(af => af.FormId)
-                   .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(f => f.AcceptanceForms)
+                  .WithOne(af => af.Form)
+                  .HasForeignKey(af => af.FormId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany<PaymentForm>()
-                   .WithOne()
-                   .HasForeignKey(pf => pf.FormId)
-                   .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(f => f.PaymentForms)
+                  .WithOne(pf => pf.Form)
+                  .HasForeignKey(pf => pf.FormId)
+                  .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
