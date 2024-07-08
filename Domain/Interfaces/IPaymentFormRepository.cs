@@ -1,9 +1,11 @@
-﻿using Domain.Entities.Forms;
+﻿using Domain.Entities;
+using Domain.Entities.Forms;
 
 namespace Domain.Interfaces
 {
     public interface IPaymentFormRepository
     {
-        Task<int> AddAsync(PaymentForm form);
+        Task AddAsync(int formId);
+        Task AddSignatureMembersAsync(IEnumerable<Signature> signatureMembers);
     }
 }

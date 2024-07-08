@@ -6,17 +6,14 @@ namespace Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        
         public DbSet<Form> Forms { get; set; }
         public DbSet<OrderForm> OrderForms { get; set; }
         public DbSet<AcceptanceForm> AcceptanceForms { get; set; }
         public DbSet<PaymentForm> PaymentForms { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
-
         public DbSet<OrderFormSignature> OrderFormSignatures { get; set; }
         public DbSet<AcceptanceFormSignature> AcceptanceFormSignatures { get; set; }
         public DbSet<PaymentFormSignature> PaymentFormSignatures { get; set; }
-
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

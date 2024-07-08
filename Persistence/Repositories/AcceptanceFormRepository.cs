@@ -7,9 +7,9 @@ namespace Persistence.Repositories
 {
     public class AcceptanceFormRepository : IAcceptanceFormRepository
     {
+        private readonly ApplicationDbContext _context;
         private readonly IGenericFormRepository _genericFormRepository;
         private readonly ISerialNumberRepository _serialNumberRepository;
-        private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
         public AcceptanceFormRepository(ApplicationDbContext context, IUnitOfWork unitOfWork, IGenericFormRepository genericFormRepository, ISerialNumberRepository serialNumberRepository)
@@ -56,6 +56,7 @@ namespace Persistence.Repositories
                                      role: signature.Role.ToString(),
                                      memo: null
                                      )).ToList();
+
                 _context.AcceptanceForms.Add(acceptanceForm);
                 await AddSignatureMembersAsync(signatures);
                 await _context.SaveChangesAsync();
