@@ -7,11 +7,11 @@ namespace Application.Forms.Handlers.Commands
 {
     public class CreateSignatureMemberHandler : IRequestHandler<CreateSignatureMemberCommand, Unit>
     {
-        private readonly IGenericFormRepository _formRepository;
+        private readonly IOrderFormRepository _orderformRepository;
 
-        public CreateSignatureMemberHandler(IGenericFormRepository formRepository)
+        public CreateSignatureMemberHandler(IOrderFormRepository orderformRepository)
         {
-            _formRepository = formRepository;
+            _orderformRepository = orderformRepository;
         }
 
         public async Task<Unit> Handle(CreateSignatureMemberCommand request, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ namespace Application.Forms.Handlers.Commands
                 dto.Memo
             )).ToList();
 
-            await _formRepository.AddSignatureMembersAsync(signatures);
+            await _orderformRepository.AddSignatureMembersAsync(signatures);
 
             return Unit.Value;
         }

@@ -15,7 +15,7 @@ namespace Persistence.Repositories
             _context = context;
             
         }
-
+        // create
         public async Task<int> AddAsync(OrderForm orderForm)
         {
             var createdOrderForm = await _context.OrderForms.AddAsync(orderForm);
@@ -23,6 +23,21 @@ namespace Persistence.Repositories
             return createdOrderForm.Entity.ProcurementId;
         }
 
+        public async Task AddSignatureMembersAsync(IEnumerable<Signature> signatureMembers)
+        {
+            var orderFormSignatures = signatureMembers.Select(signature =>
+            new OrderFormSignature(
+                signature.FormId,
+                signature.UserId,
+                signature.Role.ToString(),
+                signature.Memo
+            )).ToList();
+
+            _context.OrderFormSignatures.AddRange(orderFormSignatures);
+            await _context.SaveChangesAsync();
+        }
+
+        // update
         public async Task UpdateOrderFormSignatureAsync(int formId, int userId, bool isApproved, string? memo)
         {
             var signatures = await _context.OrderFormSignatures
@@ -72,16 +87,5 @@ namespace Persistence.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-        public async Task DeleteAsync(int procurementId)
-        {
-            var orderForm = await _context.OrderForms.FindAsync(procurementId);
-            if (orderForm != null)
-            {
-                _context.OrderForms.Remove(orderForm);
-                await _context.SaveChangesAsync();
-            }
-        }
-
     }
 }

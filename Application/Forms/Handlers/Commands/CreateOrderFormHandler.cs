@@ -1,4 +1,5 @@
 ﻿using Application.Forms.Commands;
+using Domain.Entities;
 using Domain.Entities.Forms;
 using Domain.Enums;
 using Domain.Interfaces;
@@ -49,13 +50,32 @@ namespace Application.Forms.Handlers.Commands
                 //創建採購單
                 var status = Status.FromName(dto.Status ?? "Pending");
                 var orderForm = new OrderForm(
-                    formId: createdFormId,
-                    serialNumber: serialNumber,
-                    title: dto.Title,
-                    description: dto.Description,
-                    status: status
-                );
+                                    formId: createdFormId,
+                                    serialNumber: serialNumber,
+                                    title: dto.Title,
+                                    description: dto.Description,
+                                    status: status
+                                    );
+                //創建採購單明細
+                var lineItems = dto.LineItems.Select(dto =>
+                                               new LineItem(
+                                               formId: createdFormId,
+                                               title: dto.Title,
+                                               description: dto.Description,
+                                               price: dto.Price,
+                                               quantity: dto.Quantity
+                                               )).ToList();
+                //創建簽核人員
+                var signatureMembers = dto.SignatureMembers.Select(dto => 
+                                       new Signature(
+                                       formId: createdFormId,
+                                       userId: dto.UserId,
+                                       role: dto.Role.ToString(),
+                                       memo: dto.Memo
+                                       )).ToList();
 
+                await _formRepository.AddLineItemsAsync(lineItems);
+                await _orderFormRepository.AddSignatureMembersAsync(signatureMembers);
                 await _orderFormRepository.AddAsync(orderForm);
 
                 await _unitOfWork.CommitAsync();

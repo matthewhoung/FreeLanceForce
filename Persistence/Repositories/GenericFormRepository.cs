@@ -80,22 +80,10 @@ namespace Persistence.Repositories
             return createdForm.Entity.Id;
         }
 
-        public async Task AddSignatureMembersAsync(IEnumerable<Signature> signatureMembers)
-        {
-            var orderFormSignatures = signatureMembers.Select(signature => new OrderFormSignature(
-                signature.FormId,
-                signature.UserId,
-                signature.Role.ToString(),
-                signature.Memo
-            )).ToList();
-
-            _context.OrderFormSignatures.AddRange(orderFormSignatures);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task AddLineItemsAsync(IEnumerable<LineItem> itemDetail)
         {
-            var lineItems = itemDetail.Select(item => new LineItem(
+            var lineItems = itemDetail.Select(item => 
+            new LineItem(
                 item.FormId,
                 item.Title,
                 item.Description,

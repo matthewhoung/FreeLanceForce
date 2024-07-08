@@ -1,4 +1,6 @@
-﻿namespace Application.Forms.DTOs
+﻿using Domain.Entities;
+
+namespace Application.Forms.DTOs
 {
     public class CreateFormDTO
     {
@@ -9,5 +11,7 @@
         public string Title { get; set; }
         public string? Description { get; set; }
         public bool? IsAttach { get; set; }
+        public IEnumerable<CreateSignatureMemberDTO> SignatureMembers { get; set; }
+        public IEnumerable<LineItem> LineItems { get; set; }
     }
 }
