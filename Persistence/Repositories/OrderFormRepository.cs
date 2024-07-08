@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Entities.Forms;
-using Domain.Enums;
 using Domain.Interfaces;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
@@ -53,18 +52,6 @@ namespace Persistence.Repositories
 
             await _context.SaveChangesAsync();
         }
-
-
-        public async Task UpdateStatusAsync(int formId, Status status)
-        {
-            var orderForm = await _context.OrderForms.FindAsync(formId);
-            if (orderForm != null)
-            {
-                orderForm.UpdateStatus(status);
-                await _context.SaveChangesAsync();
-            }
-        }
-
 
         public async Task UpdateTitleAsync(int formId, string title)
         {

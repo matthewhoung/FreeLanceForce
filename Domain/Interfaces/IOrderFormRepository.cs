@@ -8,7 +8,6 @@ namespace Domain.Interfaces
         // create
         Task<int> AddAsync(OrderForm orderForm);
         // update
-        Task UpdateStatusAsync(int formId, Status status);
         Task UpdateTitleAsync(int formId, string title);
         Task UpdateDescriptionAsync(int formId, string description);
         Task UpdateOrderFormSignatureAsync(int formId, int userId, bool isApproved, string? memo);

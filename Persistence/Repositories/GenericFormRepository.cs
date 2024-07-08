@@ -64,7 +64,6 @@ namespace Persistence.Repositories
         }
 
         
-
         public async Task<IEnumerable<LineItem>> GetLineItemsAsync(int formId)
         {
             var query = from lineItem in _context.LineItems
