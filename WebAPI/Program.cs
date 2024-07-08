@@ -17,8 +17,14 @@ builder.Services.AddApplication();
 builder.Services.AddPersistence();
 
 // Configure database connection
+/*
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+*/
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseMySql(builder.Configuration.GetConnectionString("MySQLConnection"),
+        new MySqlServerVersion(new Version(8, 0, 21))));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
