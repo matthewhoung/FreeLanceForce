@@ -1,9 +1,10 @@
-﻿using Domain.Entities.Forms;
+﻿using Domain.Entities;
 
 namespace Domain.Interfaces
 {
     public interface IAcceptanceFormRepository
     {
-        Task<int> AddAsync(AcceptanceForm form);
+        Task AddAsync(int formId);
+        Task AddSignatureMembersAsync(IEnumerable<Signature> signatureMembers);
     }
 }

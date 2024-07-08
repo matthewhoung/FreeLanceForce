@@ -26,19 +26,19 @@ namespace Persistence.Repositories
         public async Task AddSignatureMembersAsync(IEnumerable<Signature> signatureMembers)
         {
             var orderFormSignatures = signatureMembers.Select(signature =>
-            new OrderFormSignature(
-                signature.FormId,
-                signature.UserId,
-                signature.Role.ToString(),
-                signature.Memo
-            )).ToList();
+                                    new OrderFormSignature(
+                                        signature.FormId,
+                                        signature.UserId,
+                                        signature.Role.ToString(),
+                                        signature.Memo
+                                    )).ToList();
 
             _context.OrderFormSignatures.AddRange(orderFormSignatures);
             await _context.SaveChangesAsync();
         }
 
         // update
-        public async Task UpdateOrderFormSignatureAsync(int formId, int userId, bool isApproved, string? memo)
+        public async Task<string> UpdateOrderFormSignatureAsync(int formId, int userId, bool isApproved, string? memo)
         {
             var signatures = await _context.OrderFormSignatures
                                            .Where(s => s.FormId == formId)
@@ -66,6 +66,8 @@ namespace Persistence.Repositories
             orderForm.UpdateStatus(newStatus);
 
             await _context.SaveChangesAsync();
+
+            return newStatus.Name;
         }
 
         public async Task UpdateTitleAsync(int formId, string title)
