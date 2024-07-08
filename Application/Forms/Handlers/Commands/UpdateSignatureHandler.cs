@@ -15,7 +15,7 @@ namespace Application.Forms.Handlers.Commands
 
         public async Task<Unit> Handle(UpdateSignatureCommand request, CancellationToken cancellationToken)
         {
-            await _orderFormRepository.UpdateSignatureAsync(request.FormId,request.UserId,request.IsApproved,request.Memo);
+            await _orderFormRepository.UpdateOrderFormSignatureAsync(request.FormId,request.UserId,request.IsApproved,request.Memo);
 
             return Unit.Value;
         }

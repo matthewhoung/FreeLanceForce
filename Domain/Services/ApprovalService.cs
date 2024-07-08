@@ -3,25 +3,27 @@ using Domain.Enums;
 
 namespace Domain.Services
 {
-    public class ApprovalService
+    public class ApprovalService<T> where T : Signature
     {
-        private readonly List<Signature> _signatures;
+        private readonly List<T> _signatures;
 
-        public ApprovalService(List<Signature> signatures)
+        public ApprovalService(List<T> signatures)
         {
             _signatures = signatures;
         }
 
-        public void ApproveSignature(int formId, int userId,string? memo)
+        public void ApproveSignature(int formId, int userId, string? memo)
         {
             var signature = _signatures.FirstOrDefault(s => s.FormId == formId && s.UserId == userId);
+
             if (signature == null)
                 throw new InvalidOperationException("Signature not found.");
 
-            if (signature.Role == Roles.Director)
-                EnsureManagerSigned(formId);
-            else if (signature.Role == Roles.Manager)
-                EnsureParticipantsSigned(formId);
+            if (signature.Role == Roles.Director && !IsManagerSigned())
+                throw new InvalidOperationException("Manager must sign before the Director.");
+
+            if (signature.Role == Roles.Manager && !AreParticipantsSigned())
+                throw new InvalidOperationException("All participants must sign before the Manager.");
 
             signature.Approve(memo);
         }
@@ -29,35 +31,25 @@ namespace Domain.Services
         public void RejectSignature(int formId, int userId, string? memo)
         {
             var signature = _signatures.FirstOrDefault(s => s.FormId == formId && s.UserId == userId);
+
             if (signature == null)
                 throw new InvalidOperationException("Signature not found.");
 
             signature.Reject(memo);
         }
 
-        private void EnsureParticipantsSigned(int formId)
+        private bool AreParticipantsSigned()
         {
-            if (_signatures.Any(s => 
-                                s.FormId == formId &&
-                               (s.IsApproved == false || 
-                                s.IsApproved == null) &&
-                                s.Role != Roles.Manager && 
-                                s.Role != Roles.Director))
-            {
-                throw new InvalidOperationException("All participants must sign before the Manager.");
-            }
+            return !_signatures.Any(s =>
+                                 (s.IsApproved == false || s.IsApproved == null) &&
+                                 s.Role != Roles.Manager &&
+                                 s.Role != Roles.Director);
         }
 
-        private void EnsureManagerSigned(int formId)
+        private bool IsManagerSigned()
         {
-            var managerSignature = _signatures.FirstOrDefault(s => s.FormId == formId && s.Role == Roles.Manager);
-
-            if (managerSignature == null || 
-                managerSignature.IsApproved == false || 
-                managerSignature.IsApproved == null)
-            {
-                throw new InvalidOperationException("Manager must sign before the Director.");
-            }
+            var managerSignature = _signatures.FirstOrDefault(s => s.Role == Roles.Manager);
+            return managerSignature != null && managerSignature.IsApproved == true;
         }
     }
 }

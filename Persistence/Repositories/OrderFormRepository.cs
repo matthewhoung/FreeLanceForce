@@ -14,6 +14,7 @@ namespace Persistence.Repositories
         public OrderFormRepository(ApplicationDbContext context)
         {
             _context = context;
+            
         }
 
         public async Task<int> AddAsync(OrderForm orderForm)
@@ -23,43 +24,26 @@ namespace Persistence.Repositories
             return createdOrderForm.Entity.ProcurementId;
         }
 
-        public async Task UpdateSignatureAsync(
-            int formId,
-            int userId,
-            bool isApproved,
-            string? memo)
+        public async Task UpdateOrderFormSignatureAsync(int formId, int userId, bool isApproved, string? memo)
         {
-            var signaturesQuery = _context.OrderFormSignatures
-                .Where(s => s.FormId == formId);
+            var signatures = await _context.OrderFormSignatures
+                                           .Where(s => s.FormId == formId)
+                                           .ToListAsync();
 
-            var signatures = await signaturesQuery.ToListAsync();
-
-            var headCount = await signaturesQuery.Select(s => s.UserId)
-                                            .Distinct()
-                                            .CountAsync();
-
-            var domainSignatures = signatures.Select(s =>
-                new Signature(
-                    s.FormId,
-                    s.UserId,
-                    s.Role.ToString(),
-                    s.Memo)).ToList();
-
-            var approvalService = new ApprovalService(domainSignatures);
+            var approvalService = new ApprovalService<OrderFormSignature>(signatures);
 
             if (isApproved)
             {
                 approvalService.ApproveSignature(formId, userId, memo);
-                _context.OrderFormSignatures.UpdateRange(signatures);
-                await _context.SaveChangesAsync();
             }
             else
             {
                 approvalService.RejectSignature(formId, userId, memo);
-                _context.OrderFormSignatures.UpdateRange(signatures);
-                await _context.SaveChangesAsync();
             }
+
+            await _context.SaveChangesAsync();
         }
+
 
         public async Task UpdateStatusAsync(int formId, Status status)
         {
